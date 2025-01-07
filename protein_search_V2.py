@@ -10,26 +10,10 @@ import os
 # if not type "pip intall pandas"  in your command terminal
 ###################################################
 
-print("preparing the code")
-human_alpha_fold_class_raw_df = pd.read_excel("HomSa_raw_domains.xlsx",header=None) #Contains Uniprot ID's And ECOD domain classifications for AlphaFold Models
-ECOD_domain_dictionary_raw_df = pd.read_excel("ecod.latest.domains.xlsx") #ECOD domain classification ID  Dictionary (contains duplicates and redundancies)(version 1.6)
-
-#Cleaning redundancies and duplicates or data that is not needed
-print('opened files')
-ECOD_domain_dictionary_df = ECOD_domain_dictionary_raw_df.drop(ECOD_domain_dictionary_raw_df.columns[[0,1,2,4,5,6,7,8,13,14,15]], axis = 1)
-ECOD_domain_dictionary_df.drop_duplicates(inplace = True)
-human_alpha_fold_class_df = human_alpha_fold_class_raw_df.drop(human_alpha_fold_class_raw_df.columns[[1,2,4,5]], axis = 1)
-human_alpha_fold_class_df.drop_duplicates(inplace= True)
-
-#Making dictionaries
-alpha_fold_human = {'ID': human_alpha_fold_class_raw_df[human_alpha_fold_class_raw_df.columns[0]].tolist(),'Code':human_alpha_fold_class_raw_df[human_alpha_fold_class_raw_df.columns[1]].tolist()}
-ECOD_domain_dictionary = {'Code':ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[0]].to_list(),'arch':ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[1]].to_list(), 'x': ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[2]].to_list(),'h':ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[3]].to_list(), 't': ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[4]].to_list()}
-print("All Ready\n\thello world")
-
 #Opening Your data
 print("What is the path to your proteomic data file (Excel Sheet)?")
 your_data_loc = input("")
-your_data_df = pd.read_excel(your_data_loc)
+your_data_df = pd.read_excel(your_data_loc,header=None)
 print(your_data_df.head(4))
 
 print("What column is your uniprot IDs in (in python Column 1 = 0, Column 2 = 1 , ect.)?")
@@ -38,9 +22,9 @@ Uniprot_column = int(input())
 print('Is there another column you want to cary over to the end (geneName, Z score, ect) (yes or no)')
 extra = str(input())
 if extra in ['yes','YES','Yes','yEs','yeS']:
-    'What column is the extra column'
+    print('What column is the extra column')
     extra_column = int(input())
-    'What do you want the column to be called'
+    print('What do you want the column to be called')
     extra_name = str(input())
 print("Do you want to run all your proteins are just the top 'x' amount of proteins? (all or top)")
 run = input("")
@@ -62,9 +46,25 @@ output_file = input("") + ".xlsx"
 
 
 #making a dictionary of your data
-your_data = {'ID':your_data_df[your_data_df.columns[Uniprot_column]].to_list}
+your_data = {'ID':your_data_df[your_data_df.columns[Uniprot_column]].to_list()}
 if extra in ['yes','YES','Yes','yEs','yeS']:
-    your_data[extra_name]= your_data_df[your_data_df.columns[extra_column]].to_list #This wont come up again till the end
+    your_data[extra_name]= your_data_df[your_data_df.columns[extra_column]].to_list() #This wont come up again till the end
+
+print("preparing the code")
+human_alpha_fold_class_raw_df = pd.read_excel("HomSa_raw_domains.xlsx",header=None) #Contains Uniprot ID's And ECOD domain classifications for AlphaFold Models
+ECOD_domain_dictionary_raw_df = pd.read_excel("ecod.latest.domains.xlsx") #ECOD domain classification ID  Dictionary (contains duplicates and redundancies)(version 1.6)
+
+#Cleaning redundancies and duplicates or data that is not needed
+print('opened files')
+ECOD_domain_dictionary_df = ECOD_domain_dictionary_raw_df.drop(ECOD_domain_dictionary_raw_df.columns[[0,1,2,4,5,6,7,8,13,14,15]], axis = 1)
+ECOD_domain_dictionary_df.drop_duplicates(inplace = True)
+human_alpha_fold_class_df = human_alpha_fold_class_raw_df.drop(human_alpha_fold_class_raw_df.columns[[1,2,4,5]], axis = 1)
+human_alpha_fold_class_df.drop_duplicates(inplace= True)
+
+#Making dictionaries
+alpha_fold_human = {'ID': human_alpha_fold_class_raw_df[human_alpha_fold_class_raw_df.columns[0]].tolist(),'Code':human_alpha_fold_class_raw_df[human_alpha_fold_class_raw_df.columns[1]].tolist()}
+ECOD_domain_dictionary = {'Code':ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[0]].to_list(),'arch':ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[1]].to_list(), 'x': ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[2]].to_list(),'h':ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[3]].to_list(), 't': ECOD_domain_dictionary_df[ECOD_domain_dictionary_df.columns[4]].to_list()}
+print("All Ready\n\thello world")
 
 #starting the process
 processing_data = {'ID':[],'Code':[],'arch':[],'x':[],'h':[],'t':[]}
