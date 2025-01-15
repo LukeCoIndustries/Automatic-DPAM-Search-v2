@@ -11,7 +11,15 @@
     <form method= 'POST' enctype="multipart/form-data">
         {{form.hidden_tag()}}
         {{form.file()}}
-        {{form.submit()}}
+        <br><hw>What column is your uniprot IDs in (in python Column 1 = 0, Column 2 = 1 , ect.)?</hw>{{form.uniprot()}}
+        <br><hw>Is there another column you want to cary over to the end (geneName, Z score, ect)? (yes or no)  </hw>{{form.extra()}}
+        <br><hw>&emsp; What column is the extra column?  </hw>{{form.extra_col()}}
+        <br><hw>&emsp; What do you want the column to be called?  </hw>{{form.extra_name()}}
+        <br><hw>Do you want to run all your proteins are just the top 'x' amount of proteins? (all or top)  </hw>{{form.run()}}
+        <br><hw>&emsp; What column is your Z score? (in python Column 1 = 0, Column 2 = 1 , ect.)  <hw>{{form.Zscore()}}
+        <br><hw>&emsp; How many proteins do you want to look at? (starts at the top Z score)  <hw>{{form.protein_count()}}
+        <br><hw>What would you like the output data to be called?  </hw>{{form.output_name()}}
+        <br>{{form.submit()}}
     </form>
 </body>
 </html>
