@@ -13,7 +13,7 @@ import os
 #Opening Your data
 print("What is the path to your proteomic data file (Excel Sheet)?")
 your_data_loc = input("")
-your_data_df = pd.read_excel(your_data_loc,header=None)
+your_data_df = pd.read_excel(your_data_loc)
 print(your_data_df.head(4))
 
 print("What column is your uniprot IDs in (in python Column 1 = 0, Column 2 = 1 , ect.)?")
@@ -99,17 +99,17 @@ for id in your_data['ID']:
     if id not in processing_data['ID']:
         processing_data['ID'] = processing_data['ID'] + [id]
         processing_data['Code'] = processing_data['Code'] + ['not_found']
+        processing_data['arch'] = processing_data['arch'] + ['not found']
         processing_data['x'] = processing_data['x'] + ['not_found']
         processing_data['h'] = processing_data['h'] + ['not_found']
         processing_data['t'] = processing_data['t'] + ['not_found']
         count = count + 1
-
+print(str(count) + " proteins were unclassified")
 if extra in ['yes','YES','Yes','yEs','yeS']:
     processing_data[extra_name] = []
     for id in processing_data['ID']:
         indx = your_data['ID'].index(id)
         processing_data[extra_name] = processing_data[extra_name] + [your_data[extra_name][indx]]
-    print(str(count) + " proteins were unclassified")
     output_df = pd.DataFrame({extra_name: processing_data[extra_name],'ID': processing_data['ID'], 'Code': processing_data['Code'], 'arch' : processing_data['arch'], 'x_name' : processing_data['x'], 'h_name' : 
     processing_data['h'],'t_name': processing_data['t']})
 else:
@@ -133,9 +133,11 @@ if sumry in ['yes','YES','Yes','yEs','yeS']:
     rank['rank']=['NA','NA','NA','NA','NA']# next part the five most common codes
     rank['NA'] = 0
     def decode(code): #this will be used later to print the 
-        if code != 'NA': # this if makes sure it does not crash if there are less than five codes
+        if code not in ['NA','not_found','not found in the ECOD dictionary']: # this if makes sure it does not crash if there are less than five codes
             indx = ECOD_domain_dictionary['Code'].index(code)
             print('\t'+ECOD_domain_dictionary['arch'][indx]+" | "+ ECOD_domain_dictionary['x'][indx]+" | "+ECOD_domain_dictionary['h'][indx]+' | '+ECOD_domain_dictionary['t'][indx]+'')
+        else:
+                print('\t'+code)
     for code in rank.keys():
         if code != 'rank':
             if rank[code] > rank[rank['rank'][4]]:
