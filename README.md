@@ -1,4 +1,4 @@
-Hi Welcome to Automatic DPAM Search version 2. This code allows you to quickly use the features of DPAM (domain parser for AlphaFold Models)
+Hi, welcome to Automatic DPAM Search version 2. This code allows you to quickly use the features of DPAM (domain parser for AlphaFold Models)
 
 Compared to Version 1, this relies more on basic Python rather than Panda's function. Moreover, this version can be run in your terminal or as a local webserver.
 
