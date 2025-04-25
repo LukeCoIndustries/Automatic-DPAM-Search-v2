@@ -123,8 +123,10 @@ def Protein_search(File,Uniprot_col,run,Output_name,extra = None, Extra_col=None
         rank['NA'] = 0
         def decode(code): #this will be used later to print the 
             if code not in ['NA','not_found','not found in the ECOD dictionary']: # this if makes sure it does not crash if there are less than five codes
-                indx = ECOD_domain_dictionary['Code'].index(code)
-                sumfile.write('<br><hw>&emsp;'+ECOD_domain_dictionary['arch'][indx]+" | "+ ECOD_domain_dictionary['x'][indx]+" | "+ECOD_domain_dictionary['h'][indx]+' | '+ECOD_domain_dictionary['t'][indx]+'</hw>')
+                for indx in range(0,len(ECOD_domain_dictionary['Code'])):
+                    if code in ECOD_domain_dictionary['Code'][indx]: #this is to prevent a problem where code has too much data
+                        sumfile.write('<br><hw>&emsp;'+ECOD_domain_dictionary['arch'][indx]+" | "+ ECOD_domain_dictionary['x'][indx]+" | "+ECOD_domain_dictionary['h'][indx]+' | '+ECOD_domain_dictionary['t'][indx]+'</hw>')
+                        break
             else:
                 sumfile.write('<br><hw>&emsp;'+code+'</hw>')
         for code in rank.keys():
